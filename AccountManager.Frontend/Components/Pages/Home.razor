@@ -1,0 +1,53 @@
+﻿@page "/"
+@using AccountManager.Frontend.Clients
+@using AccountManager.Frontend.Models
+
+<PageTitle>AccountManager</PageTitle>
+
+@if (accounts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (accounts.Length == 0)
+{
+    <p>No accounts found.</p>
+}
+else
+{
+<table class="table table-striped table-bordered table-hover mt-3">
+    <thead class="table-dark">
+        <th>Id</th>
+        <th>UserName</th>
+        <th>Password</th>
+        <th>Email</th>
+        <th>Ipadress</th>
+        <th>Category</th>
+        <th></th>
+    </thead>
+    <tbody>
+        @foreach (var account in accounts)
+        {
+            <tr>
+                <td>@account.Id</td>
+                <td>@account.UserName</td>
+                <td>@account.Password</td>
+                <td>@account.Email</td>
+                <td>@account.Ipadress</td>
+                <td>@account.Category</td>
+                <td><button class="btn btn-primary">Edit</button></td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+@code {
+    private AccountsClient accountsClient = new();
+    private AccountSummary[]? accounts;
+
+    protected override void OnInitialized()
+    {
+        accounts = accountsClient.GetGames();
+    }
+}
+}

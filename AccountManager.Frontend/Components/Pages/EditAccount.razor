@@ -1,0 +1,74 @@
+﻿@page "/edit-account"
+@using Models
+@using AccountManager.Frontend.Clients
+
+<PageTitle>Edit Account</PageTitle>
+
+@if(categories is null)
+{
+    <p><em>Loading categories...</em></p>
+}
+else{
+
+<h3>New Account</h3>
+
+<div class="row">
+  <div class="col-md-4">
+    
+
+<EditForm Model="@account" FormName="editAccountForm">
+  <div class="mb-3">
+    <label for="username" class="form-label">User Name: </label>
+    <InputText id="username" class="form-control" @bind-Value="account.UserName" />
+  </div>
+
+  <div class="mb-3">
+    <label for="password" class="form-label">Password: </label>
+    <InputText id="password" class="form-control" @bind-Value="account.Password" />
+  </div>
+
+  <div class="mb-3">
+    <label for="Email" class="form-label">Email: </label>
+    <InputText id="Email" class="form-control" @bind-Value="account.Email" />
+  </div>
+
+  <div class="mb-3">
+    <label for="IpAdress" class="form-label">IpAdress: </label>
+    <InputText id="IpAdress" class="form-control" @bind-Value="account.Ipadress" />
+  </div>
+
+  <div class="mb-3">
+    <label for="category" class="form-label">Category: </label>
+    <InputSelect id="category" class="form-select" @bind-Value="account.CategoryId" >
+    <option value="">Select a Category</option>
+    @foreach (var category in categories)
+    {
+        <option value="@category.Id">@category.Name</option>
+    }
+    </InputSelect>
+
+  </div>
+</EditForm>
+
+</div>
+</div>
+}
+
+@code {
+    private AccountDetails account = new()
+    {
+        UserName = string.Empty,
+        Password = string.Empty,
+        Email = string.Empty,
+        Ipadress = string.Empty
+    };
+
+    private CategoriesClient categoriesClient = new();
+
+    private Categories[]? categories;
+
+    protected override void OnInitialized()
+    {
+        categories = categoriesClient.GetCategories();
+    }
+}
