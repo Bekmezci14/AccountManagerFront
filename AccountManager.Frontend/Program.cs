@@ -1,9 +1,12 @@
+using AccountManager.Frontend.Clients;
 using AccountManager.Frontend.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents();
+builder.Services.AddSingleton<AccountsClient>();
+builder.Services.AddSingleton<CategoriesClient>();
 
 var app = builder.Build();
 

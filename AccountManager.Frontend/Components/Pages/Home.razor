@@ -1,8 +1,10 @@
 ﻿@page "/"
-@using AccountManager.Frontend.Clients
-@using AccountManager.Frontend.Models
-
+@inject AccountsClient Client
 <PageTitle>AccountManager</PageTitle>
+
+<div class="mt-2">
+    <a class="btn btn-primary" role="button" href="/edit-account">New Account</a>
+</div>
 
 @if (accounts == null)
 {
@@ -42,12 +44,11 @@ else
 </table>
 
 @code {
-    private AccountsClient accountsClient = new();
     private AccountSummary[]? accounts;
 
     protected override void OnInitialized()
     {
-        accounts = accountsClient.GetGames();
+        accounts = Client.GetAccounts();
     }
 }
 }

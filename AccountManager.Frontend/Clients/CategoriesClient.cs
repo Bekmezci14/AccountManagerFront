@@ -5,12 +5,12 @@ namespace AccountManager.Frontend.Clients;
 
 public class CategoriesClient
 {
-    private readonly List<Categories> categories = [
+    private readonly List<Category> categories = [
         new() { Id = 1, Name = "Default" },
-        new() { Id = 2, Name = "Gaming" },
-        new() { Id = 3, Name = "Work" }
+        new() { Id = 2, Name = "Work" },
+        new() { Id = 3, Name = "Personal" }
     ];
 
-    public Categories[] GetCategories() => [.. categories];
+    public Category[] GetCategories() => [.. categories];
 
 }
