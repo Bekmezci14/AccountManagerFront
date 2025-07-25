@@ -76,4 +76,23 @@ public class AccountsClient
         return account;
     }
 
+
+    public void UpdateAccount(AccountDetails accountDetails)
+    {
+        var category = GetCategoryById(accountDetails.CategoryId);
+        AccountSummary existingAccount = GetAccountSummaryById(accountDetails.Id);
+
+        existingAccount.UserName = accountDetails.UserName;
+        existingAccount.Password = accountDetails.Password;
+        existingAccount.Email = accountDetails.Email;
+        existingAccount.Ipadress = accountDetails.Ipadress;
+        existingAccount.Category = category.Name;
+
+    }
+
+    public void DeleteAccount(int id)
+    {
+        AccountSummary account = GetAccountSummaryById(id);
+        accounts.Remove(account);
+    }
 }

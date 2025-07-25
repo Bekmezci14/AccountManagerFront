@@ -24,7 +24,8 @@ else
         <th>Email</th>
         <th>Ipadress</th>
         <th>Category</th>
-        <th></th>
+        <th>
+        </th>
     </thead>
     <tbody>
         @foreach (var account in accounts)
@@ -36,7 +37,17 @@ else
                 <td>@account.Email</td>
                 <td>@account.Ipadress</td>
                 <td>@account.Category</td>
-                <td><button class="btn btn-primary">Edit</button></td>
+                <td>
+                    <div class="d-flex">
+                        <a class="btn btn-primary me-2" href="@AccountUrl(account.Id)">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@GetDeleteModalId(account)">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <DeleteAccount Account="@account" />
+                </td>
             </tr>
         }
 
@@ -49,6 +60,13 @@ else
     protected override void OnInitialized()
     {
         accounts = Client.GetAccounts();
+    }
+
+    private static string AccountUrl(int id) => $"/edit-account/{id}";
+
+    private string GetDeleteModalId(AccountSummary account)
+    {
+        return $"#{DeleteAccount.GetModalId(account)}";
     }
 }
 }

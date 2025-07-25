@@ -21,7 +21,7 @@ else{
     
 
 <EditForm Model="@account" FormName="editAccountForm" OnValidSubmit="HandleSubmit">
-  <DataAnnotationsValidator />\
+  <DataAnnotationsValidator />
   <ValidationSummary />
   <div class="mb-3">
     <label for="username" class="form-label">User Name: </label>
@@ -109,7 +109,17 @@ else{
     private void HandleSubmit()
     {
       ArgumentNullException.ThrowIfNull(account);
-      AccountsClient.AddAccount(account);
+
+      if (Id is null)
+      {
+        AccountsClient.AddAccount(account);
+      }
+      else
+      {
+        account.Id = Id.Value;
+        AccountsClient.UpdateAccount(account);
+      }
+      
       NavigationManager.NavigateTo("/");
     }
         
