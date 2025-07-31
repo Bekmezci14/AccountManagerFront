@@ -2,7 +2,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">@title</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       
@@ -18,9 +18,11 @@
     [Parameter]
     public AccountSummary? Account { get; set; }
 
-    protected override void OnInitialized()
+    private string title = string.Empty;
+
+    protected override void OnParametersSet()
     {
-        ArgumentNullException.ThrowIfNull(Account);
+        title = $"Delete Account {Account?.Id}?";
     }
 
     public static string GetModalId(AccountSummary? account)
