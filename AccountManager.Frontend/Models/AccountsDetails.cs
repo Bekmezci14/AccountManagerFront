@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using AccountManager.Frontend.Converters;
 
 namespace AccountManager.Frontend.Models;
 
@@ -14,7 +16,8 @@ public class AccountDetails
 
     public string? Email { get; set; }
     public string? Ipadress { get; set; }
-    [Required (ErrorMessage = "Category is required.")]
+    [Required(ErrorMessage = "Category is required.")]
+    [JsonConverter(typeof(StringConverter))]
     public string? CategoryId { get; set; } 
 
 }

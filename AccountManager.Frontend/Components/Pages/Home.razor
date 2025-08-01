@@ -1,36 +1,12 @@
 ﻿@page "/"  
 @inject AccountsClient Client
+@inject NavigationManager NavigationManager
 <PageTitle>AccountManager</PageTitle>
 
 <div class="mt-2">
     <a class="btn btn-primary" role="button" href="/edit-account">New Account</a>
-    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">Test</button>
 </div>
 
-<!-- Modal Trigger -->
-<div class="mt-2">
-    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Test Modal
-    </button>
-</div>
-
-<!-- Modal HTML -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Hello from the modal!
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 @if (accounts == null)
 {
@@ -68,7 +44,7 @@ else
                         <a class="btn btn-primary me-2" href="@AccountUrl(account.Id)">
                             <i class="bi bi-pencil"></i>
                         </a>
-                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@GetDeleteModalId(account)">
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@GetDeleteModalId(account)" >
                             <i class="bi bi-x-lg"></i>
                         </button>
                     </div>
@@ -83,9 +59,9 @@ else
 @code {
     private AccountSummary[]? accounts;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        accounts = Client.GetAccounts();
+        accounts = await Client.GetAccountsAsync();
     }
 
     private static string AccountUrl(int id) => $"/edit-account/{id}";
@@ -94,5 +70,7 @@ else
     {
         return $"#{DeleteAccount.GetModalId(account)}";
     }
+
+    
 }
 }

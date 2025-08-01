@@ -4,9 +4,20 @@ using AccountManager.Frontend.Components;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorComponents();
-builder.Services.AddSingleton<AccountsClient>();
-builder.Services.AddSingleton<CategoriesClient>();
+builder.Services.AddRazorComponents()
+        .AddInteractiveServerComponents();
+
+var AccountManagerApiUrl = builder.Configuration["AccountManagerApiUrl"] ??
+    throw new Exception("AccountManagerApiUrl is not configured in appsettings.json");
+builder.Services.AddHttpClient<AccountsClient>(client =>
+{
+    client.BaseAddress = new Uri(AccountManagerApiUrl);
+});
+builder.Services.AddHttpClient<CategoriesClient>(client =>
+{
+    client.BaseAddress = new Uri(AccountManagerApiUrl);
+});
+
 
 var app = builder.Build();
 
@@ -23,6 +34,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-app.MapRazorComponents<App>();
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode();
 
 app.Run();

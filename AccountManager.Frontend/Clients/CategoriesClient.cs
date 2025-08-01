@@ -3,7 +3,7 @@ using AccountManager.Frontend.Models;
 
 namespace AccountManager.Frontend.Clients;
 
-public class CategoriesClient
+public class CategoriesClient(HttpClient httpClient)
 {
     private readonly List<Category> categories = [
         new() { Id = 1, Name = "Default" },
@@ -11,6 +11,6 @@ public class CategoriesClient
         new() { Id = 3, Name = "Personal" }
     ];
 
-    public Category[] GetCategories() => [.. categories];
+    public async Task<Category[]> GetCategoriesAsync() => await httpClient.GetFromJsonAsync<Category[]>("categories") ?? [];
 
 }
